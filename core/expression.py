@@ -9,6 +9,7 @@ class Expression:
         self.expression = expression
         self.degree = None
         self.degrees = None
+        self.decomposition = {} 
 
     def simplify(self):
         pass
@@ -32,9 +33,16 @@ class Expression:
             else:
                 return None, None
 
-    def decompose(self):
-        decomposition = {}
+    def invert(self):
+        if not self.decomposition:
+            self.decompose()
+        
+        for key in self.decomposition:
+            self.decomposition[key] *= -1
 
+        return dict(self.decomposition)
+
+    def decompose(self):
         monomes = Expression.MONOME_REGEX.findall(self.expression)
         monomes = [monome[0] for monome in monomes]
 
@@ -50,12 +58,9 @@ class Expression:
                     degree = 0
             
             term = float(term.split("x")[0].replace(",", "."))
-            decomposition[degree] = term
+            self.decomposition[degree] = term
         
-        return decomposition
-
-        
-
+        return dict(self.decomposition)
 
     def __repr__(self):
         return self.expression
