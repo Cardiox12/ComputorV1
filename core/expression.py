@@ -33,6 +33,14 @@ class Expression:
             else:
                 return None, None
 
+    def pass_to_left(self, right):
+        for key in right.decomposition:
+            try:
+                self.decomposition[key] += right.decomposition[key]
+            except KeyError:
+                continue
+        return dict(self.decomposition)
+
     def invert(self):
         if not self.decomposition:
             self.decompose()
