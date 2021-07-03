@@ -51,9 +51,8 @@ class Expression:
             
             term = float(term.split("x")[0].replace(",", "."))
             decomposition[degree] = term
-        print("=" * 40)
-        print(self.expression)
-        pprint(decomposition)
+        
+        return decomposition
 
         
 
