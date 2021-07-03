@@ -1,4 +1,5 @@
 import re
+from pprint import pprint
 
 class Expression:
     LEFT_REGEX = r"(((^[+-]?)|([\+-]))((([0-9]+([\.,][0-9]+)?\*?)?(X((\^[0-9]+([\.,][0-9]+)?)|(\^\(-?[0-9]+([\.,][0-9]+)?\)))?)?)))"
@@ -39,12 +40,20 @@ class Expression:
 
         for monome in monomes:
             terms = monome.split("^")
+            term = terms[0]
             if len(terms) == 2:
                 degree = int(terms[-1])
             else:
-                degree = 1
-            print(monome)
-            print(f"Degree : {degree}")
+                if "x" in term:
+                    degree = 1
+                else:
+                    degree = 0
+            
+            term = float(term.split("x")[0].replace(",", "."))
+            decomposition[degree] = term
+        print("=" * 40)
+        print(self.expression)
+        pprint(decomposition)
 
         
 
