@@ -3,11 +3,11 @@ from core.equation import Equation
 # Left
 
 Equation("5 * X^0 + 4 * X^1 - 9.3 * X^2 = 1 * X^0")
-Equation("4 * X^0 + 4 * X^1 - 9.3 * X^2 = 0")
-Equation("5 * X^0 + 4 * X^1 = 4 * X^0")
-Equation("1 * X^0 + 4 * X^1 = 0")
-Equation("8 * X^0 - 6 * X^1 + 0 * X^2 - 5.6 * X^3 = 3 * X^0")
-Equation("5 * X^0 - 6 * X^1 + 0 * X^2 - 5.6 * X^3 = 0")
+# Equation("4 * X^0 + 4 * X^1 - 9.3 * X^2 = 0")
+# Equation("5 * X^0 + 4 * X^1 = 4 * X^0")
+# Equation("1 * X^0 + 4 * X^1 = 0")
+# Equation("8 * X^0 - 6 * X^1 + 0 * X^2 - 5.6 * X^3 = 3 * X^0")
+# Equation("5 * X^0 - 6 * X^1 + 0 * X^2 - 5.6 * X^3 = 0")
 
 # Equation("2x")
 # Equation("2x^2+10x+3")

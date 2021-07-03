@@ -33,6 +33,14 @@ class Expression:
 			else:
 				return None, None
 
+	def pass_to_left(self, right):
+		for key in right.decomposition:
+			try:
+				self.decomposition[key] += right.decomposition[key]
+			except KeyError:
+				continue
+		return dict(self.decomposition)
+
 	def invert(self):
 		if not self.decomposition:
 			self.decompose()
@@ -47,6 +55,7 @@ class Expression:
 		monomes = [monome[0] for monome in monomes if monome[0].replace(" ", "")]
 
 		for monome in monomes:
+			print(monome)
 			terms = monome.split("^")
 			term = terms[0]
 			print(monome)
@@ -58,7 +67,8 @@ class Expression:
 				else:
 					degree = 0
 
-			term = float(term.split("x")[0].replace(",", "."))
+			# term = float(term.split("x")[0].replace(",", "."))
+			term = 1
 			self.decomposition[degree] = term
 		
 		return dict(self.decomposition)
