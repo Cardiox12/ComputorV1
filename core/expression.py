@@ -49,6 +49,7 @@ class Expression:
 		for monome in monomes:
 			terms = monome.split("^")
 			term = terms[0]
+			print(monome)
 			if len(terms) == 2:
 				degree = int(terms[-1])
 			else:
