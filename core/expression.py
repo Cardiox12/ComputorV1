@@ -4,7 +4,7 @@ from pprint import pprint
 class Expression:
 	LEFT_REGEX = r"(((^[+-]?)|([\+-]))((([0-9]+([\.,][0-9]+)?\*?)?(X((\^[0-9]+([\.,][0-9]+)?)|(\^\(-?[0-9]+([\.,][0-9]+)?\)))?)?)))"
 	RIGHT_REGEX = r"([\+-]?((([0-9]+([\.,][0-9]+)?\*?)?(X((\^[0-9]+([\.,][0-9]+)?)|(\^\(-?[0-9]+([\.,][0-9]+)?\)))?)?)))"
-	MONOME_REGEX = re.compile(r"((\+|\-)?(\s*)(\d*((,|\.)?\d*))(\s*)((\s*)(\*?)(\s*))(x?)(\^?)(\d*((,|\.)?\d*)))")
+	MONOME_REGEX = re.compile(r"((\+|\-)?(\s*)(\d*((,|\.)?\d*))(\s*)((\s*)(\*?)(\s*))(X?)(\^?)(\d*((,|\.)?\d*)))")
 	def __init__(self, expression: str):
 		self.expression = expression
 		self.degree = None
@@ -52,13 +52,13 @@ class Expression:
 
 	def decompose(self):
 		monomes = Expression.MONOME_REGEX.findall(self.expression)
-		monomes = [monome[0] for monome in monomes if monome[0].replace(" ", "")]
+		monomes = [monome[0].replace(" ", "") for monome in monomes if monome[0].replace(" ", "")]
+		print(monomes)
 
 		for monome in monomes:
-			print(monome)
 			terms = monome.split("^")
 			term = terms[0]
-			print(monome)
+
 			if len(terms) == 2:
 				degree = int(terms[-1])
 			else:
@@ -67,8 +67,11 @@ class Expression:
 				else:
 					degree = 0
 
-			# term = float(term.split("x")[0].replace(",", "."))
-			term = 1
+			if "*" in term:
+				term = float(term.split("*")[0].replace(",", "."))
+			else:
+				term = float(term.split("x")[0].replace(",", "."))
+
 			self.decomposition[degree] = term
 		
 		return dict(self.decomposition)
