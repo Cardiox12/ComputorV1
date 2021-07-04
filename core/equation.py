@@ -32,15 +32,16 @@ class Equation:
 				# Two real solutions
 				x1 = (-b + Equation.sqrt(delta)) / (2 * a)
 				x2 = (-b - Equation.sqrt(delta)) / (2 * a)
-				# print(f"{self.expression} admet deux solutions\n\tx1 : {x1}\n\tx2 : {x2}")
-				equation = self.format()
-				print(equation)
+				print(f"{self.expression} admet deux solutions\n\tx1 : {x1}\n\tx2 : {x2}")
+				print(self.format())
 			elif delta < 0:
 				# Two imaginary solutions
 				pass
 			else:
 				# One solution
-				pass
+				x = (-b) / (2 * a)
+				print(f"{self.expression} admet une solution\n\tx : {x}")
+				print(self.format())
 	
 	def format(self):
 		equation = ""

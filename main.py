@@ -10,7 +10,7 @@ Equation("8 * X^0 - 6 * X^1 + 0 * X^2 - 5.6 * X^3 = 3 * X^0")
 Equation("5 * X^0 - 6 * X^1 + 0 * X^2 - 5.6 * X^3 = 0")
 
 # Equation("2x")
-# Equation("2x^2+10x+3")
+# Equation("2x^2 + 10x + 3")
 # Equation("2x^2-10x+3")
 # Equation("2x^2+10x-3")
 # Equation("-2x^2+10x+3")
