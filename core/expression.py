@@ -1,5 +1,4 @@
 import re
-from pprint import pprint
 
 class Expression:
 	LEFT_REGEX = r"(((^[+-]?)|([\+-]))((([0-9]+([\.,][0-9]+)?\*?)?(X((\^[0-9]+([\.,][0-9]+)?)|(\^\(-?[0-9]+([\.,][0-9]+)?\)))?)?)))"
@@ -39,6 +38,7 @@ class Expression:
 				self.decomposition[key] += right.decomposition[key]
 			except KeyError:
 				continue
+		self.expression += right.expression
 		return dict(self.decomposition)
 
 	def invert(self):
@@ -53,7 +53,6 @@ class Expression:
 	def decompose(self):
 		monomes = Expression.MONOME_REGEX.findall(self.expression)
 		monomes = [monome[0].replace(" ", "") for monome in monomes if monome[0].replace(" ", "")]
-		print(monomes)
 
 		for monome in monomes:
 			terms = monome.split("^")

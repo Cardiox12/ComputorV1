@@ -12,12 +12,96 @@ class Equation:
 			self.right.invert()
 			self.left.pass_to_left(self.right)
 
-		print("=" * 50)
-		pprint(self.expression)
-		pprint(self.left.decomposition)
+		self.degree = max(self.left.decomposition.keys())
+		self.solve()
 
-	def sqrt(self, x):
-		return x
+	def solve(self):
+		if self.degree > 2:
+			return "Cannot solve this equation, degree too high"
+		if self.degree < 0:
+			return "Cannot solve this equation, degree too low"
+		if self.degree == 2:
+			# Calculer discriminant
+			a = self.left.decomposition[2]
+			b = self.left.decomposition[1]
+			c = self.left.decomposition[0]
+
+			delta = (b ** 2) - (4 * a * c);
+			print(a, b, c)
+			print(f"Delta {delta}")
+			if delta > 0:
+				# Two real solutions
+				x1 = (-b + Equation.sqrt(delta)) / (2 * a)
+				x2 = (-b - Equation.sqrt(delta)) / (2 * a)
+				print(f"{self.expression} admet deux solutions\n\tx1 : {x1}\n\tx2 : {x2}")
+			elif delta < 0:
+				# Two imaginary solutions
+				pass
+			else:
+				# One solution
+				pass
+
+
+	@staticmethod
+	def sqrt(x):
+		def _sqrt(x):
+			i = 0
+			while (i * i < x and i <= 46340):
+				i+=1
+			if (i * i == x):
+				return (i)
+			else:
+				return (0)
+
+		def _splitTooPerTooInt(x):
+			decompo = []
+			while x > 0:
+				decompo.append(x%100)
+				x //= 100
+			decompo.reverse()
+			return decompo
+
+		def _splitTooPerTooFloat(x):
+			decompo = []
+			i = 0
+			while i < 10:
+				decompo.append(int(x*100))
+				x *= 100
+				x -= int(x)
+				i += 1
+			return decompo
+
+		div = 0
+		result = 0
+		partie = 0
+		decimal = 10
+		if _sqrt(x):
+			return _sqrt(x)
+		gauche = _splitTooPerTooInt(int(x))
+		x -= int(x)
+		droite = _splitTooPerTooFloat(x)
+		
+		while(len(gauche)):
+			partie = partie*100+gauche[0]
+			i = 0
+			while partie > ((div*10)+i+1)*(i+1):  
+				i += 1
+			partie -= ((div*10)+i)*i
+			div = (div*10)+(i*2)
+			result = result*10 + i
+			del gauche[0]
+
+		while(len(droite)):
+			partie = partie*100+droite[0]
+			i = 0
+			while partie > ((div*10)+i+1)*(i+1):  
+				i += 1
+			partie -= ((div*10)+i)*i
+			div = (div*10)+(i*2)
+			result = result + i/(decimal)
+			del droite[0]
+			decimal *= 10
+		return result
 
 	def simplify(self):
 		pass
