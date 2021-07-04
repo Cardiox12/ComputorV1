@@ -33,7 +33,8 @@ class Equation:
 				x1 = (-b + Equation.sqrt(delta)) / (2 * a)
 				x2 = (-b - Equation.sqrt(delta)) / (2 * a)
 				# print(f"{self.expression} admet deux solutions\n\tx1 : {x1}\n\tx2 : {x2}")
-				self.format()
+				equation = self.format()
+				print(equation)
 			elif delta < 0:
 				# Two imaginary solutions
 				pass
@@ -48,11 +49,21 @@ class Equation:
 			value = value if not value.is_integer() else int(value)
 
 			if index == 0:
-				equation += f"{value} * X^{key}"
+				if key == 0:
+					equation += f"{value}"
+				elif key == 1:
+					equation += f"{value} * X"
+				else:
+					equation += f"{value} * X^{key}"
 			elif value < 0:
 				equation += f" - {str(value).replace('-', '')} * X^{key}"
 			elif value >= 0:
-				equation += f" + {value} * X^{key}"
+				if key == 0:
+					equation += f" + {value}"
+				elif key == 1:
+					equation += f" + {value} * X"
+				else:
+					equation += f" + {value} * X^{key}"
 		return equation
 
 	@staticmethod
