@@ -26,21 +26,34 @@ class Equation:
 			b = self.left.decomposition[1]
 			c = self.left.decomposition[0]
 
-			delta = (b ** 2) - (4 * a * c);
-			print(a, b, c)
-			print(f"Delta {delta}")
+			delta = (b ** 2) - (4 * a * c)
+
 			if delta > 0:
 				# Two real solutions
 				x1 = (-b + Equation.sqrt(delta)) / (2 * a)
 				x2 = (-b - Equation.sqrt(delta)) / (2 * a)
-				print(f"{self.expression} admet deux solutions\n\tx1 : {x1}\n\tx2 : {x2}")
+				# print(f"{self.expression} admet deux solutions\n\tx1 : {x1}\n\tx2 : {x2}")
+				self.format()
 			elif delta < 0:
 				# Two imaginary solutions
 				pass
 			else:
 				# One solution
 				pass
+	
+	def format(self):
+		equation = ""
+		for index, key in enumerate(self.left.decomposition):
+			value = self.left.decomposition[key]
+			value = value if not value.is_integer() else int(value)
 
+			if index == 0:
+				equation += f"{value} * X^{key}"
+			elif value < 0:
+				equation += f" - {str(value).replace('-', '')} * X^{key}"
+			elif value >= 0:
+				equation += f" + {value} * X^{key}"
+		return equation
 
 	@staticmethod
 	def sqrt(x):
