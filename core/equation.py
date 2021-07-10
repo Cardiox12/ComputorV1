@@ -14,6 +14,7 @@ class Equation:
 
 		self.degree = max(self.left.decomposition.keys())
 		self.solve()
+		print("=" * 50)
 
 	def solve(self):
 		if self.degree > 2:
@@ -22,6 +23,7 @@ class Equation:
 			return "Cannot solve this equation, degree too low"
 		if self.degree == 2:
 			# Calculer discriminant
+			print(self.left.decomposition)
 			a = self.left.decomposition[2]
 			b = self.left.decomposition[1]
 			c = self.left.decomposition[0]
@@ -36,6 +38,10 @@ class Equation:
 				print(self.format())
 			elif delta < 0:
 				# Two imaginary solutions
+				# x1 = complex(-b / (2 * a), Equation.sqrt(delta) / (2 * a))
+				# x2 = complex(-b, - Equation.sqrt(delta))
+				# print(f"{self.expression} admet deux solutions imaginaires\n\tx1 : {x1}\n\tx2 : {x2}")
+				# print(self.format())
 				pass
 			else:
 				# One solution

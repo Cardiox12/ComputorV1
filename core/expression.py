@@ -61,7 +61,7 @@ class Expression:
 			if len(terms) == 2:
 				degree = int(terms[-1])
 			else:
-				if "x" in term:
+				if "X" in term:
 					degree = 1
 				else:
 					degree = 0
@@ -69,7 +69,7 @@ class Expression:
 			if "*" in term:
 				term = float(term.split("*")[0].replace(",", "."))
 			else:
-				term = float(term.split("x")[0].replace(",", "."))
+				term = float(term.split("X")[0].replace(",", "."))
 
 			self.decomposition[degree] = term
 		
