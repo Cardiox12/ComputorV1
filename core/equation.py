@@ -17,17 +17,28 @@ class Equation:
 		print("=" * 50)
 
 	def solve(self):
+		if any([not float(n).is_integer() for n in self.left.decomposition.keys()]):
+			print("Cannot solve, degree float")
 		if self.degree > 2:
-			return "Cannot solve this equation, degree too high"
-		if self.degree < 0:
-			return "Cannot solve this equation, degree too low"
-		if self.degree == 1:
-			pass
-		if self.degree == 2:
+			print(f"Cannot solve this equation with degree {self.degree}, degree too high")
+		elif self.degree < 0:
+			print(f"Cannot solve this equation with degree {self.degree}, degree too low")
+		elif self.degree == 1:
+			a = self.left.decomposition[1]
+			b = self.left.decomposition.get(0, 0)
+			x = -b / a
+			print(f"{self.expression} a pour solution x = {x}")
+			print(self.format())
+		elif self.degree == 2 and len(self.left.decomposition.keys()) == 1:
+			factor = float(self.left.expression.split("X")[0])
+			x = Equation.sqrt(factor)
+			print(f"{self.expression} admet une solution x = {x}")
+			print(self.format())
+		elif self.degree == 2:
 			# Calculer discriminant
-			a = self.left.decomposition[2]
-			b = self.left.decomposition[1]
-			c = self.left.decomposition[0]
+			a = self.left.decomposition.get(2, 0)
+			b = self.left.decomposition.get(1, 0)
+			c = self.left.decomposition.get(0, 0)
 
 			delta = (b ** 2) - (4 * a * c)
 

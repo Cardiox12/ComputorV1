@@ -2,7 +2,16 @@ from core.equation import Equation
 
 # Left
 
-Equation("4X=0")
+Equation("4X + 1 = 0")
+Equation("5X^2 = 0")
+Equation("4X^3 = 0")
+Equation("X^2 + 5X = 0")
+Equation("2X^2+10X^1.5+3 = 0")
+Equation("X^(-2)+10X^1+3 = 0")
+Equation("X^2 + X^1 +3 = 0")
+Equation("X^2 + 3*X^0 +3 = 0")
+Equation("X^(2) + 12X= 0")
+
 # Equation("1 * X ^ 2 + 3 * X + 4 = 0")
 # Equation("5 * X^0 + 4 * X^1 - 9.3 * X^2 = 1 * X^0")
 # Equation("2*X^2-3*X^1+1.125*X^0=0")
