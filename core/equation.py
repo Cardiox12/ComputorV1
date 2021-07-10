@@ -44,8 +44,8 @@ class Equation:
 
 			if delta > 0:
 				# Two real solutions
-				x1 = (-b + Equation.sqrt(delta)) / (2 * a)
-				x2 = (-b - Equation.sqrt(delta)) / (2 * a)
+				x1 = (-b - Equation.sqrt(delta)) / (2 * a)
+				x2 = (-b + Equation.sqrt(delta)) / (2 * a)
 				print(f"{self.expression} admet deux solutions\n\tx1 : {x1}\n\tx2 : {x2}")
 				print(self.format())
 			elif delta < 0:

@@ -10,12 +10,12 @@ class Expression:
 	# MONOME_REGEX = re.compile(r"((\+|\-)?(\s*)(\d*((,|\.)?\d*))(\s*)((\s*)(\*?)(\s*))(X?)(\s*)(\^?)(\s*)(\d*((,|\.)?\d*)))")
 
 	# Original regex
-	MONOME_REGEX = re.compile(r"((\+|\-)?(\s*)(\d*((,|\.)?\d*))(\s*)((\s*)(\*?)(\s*))(X?)(\s*)(\^?)(\s*)(\d*((,|\.)?\d*)))")
+	MONOME_REGEX = re.compile(r"((\+|-)?\d*((\.|,)?\d*)X?\^?\(?(\+|-)?(\d*(\.|,)?\d*)\)?)")
 	def __init__(self, expression: str):
 		self.expression = expression
 		self.degree = None
 		self.degrees = None
-		self.decomposition = {} 
+		self.decomposition = {}
 
 	def simplify(self):
 		pass
@@ -58,15 +58,13 @@ class Expression:
 		return dict(self.decomposition)
 
 	def decompose(self):
-		monomes = Expression.MONOME_REGEX.findall(self.expression)
+		monomes = Expression.MONOME_REGEX.findall(self.expression.replace(" ", ""))
 		monomes = [monome[0].replace(" ", "").replace("(", "").replace(")", "") for monome in monomes if monome[0].replace(" ", "")]
 
-		print(monomes)
 		for monome in monomes:
 			terms = monome.split("^")
 			term = terms[0]
 
-			print(terms)
 			if len(terms) == 2:
 				degree = float(terms[-1])
 			else:
@@ -78,8 +76,10 @@ class Expression:
 			if "*" in term:
 				term = float(term.split("*")[0].replace(",", "."))
 			else:
-				if term == "X":
+				if term == "X" or term == "+X":
 					term = 1.0
+				elif term == "-X":
+					term = -1.0
 				else:
 					term = float(term.split("X")[0].replace(",", "."))
 
