@@ -69,7 +69,10 @@ class Expression:
 			if "*" in term:
 				term = float(term.split("*")[0].replace(",", "."))
 			else:
-				term = float(term.split("X")[0].replace(",", "."))
+				if term == "X":
+					term = 1.0
+				else:
+					term = float(term.split("X")[0].replace(",", "."))
 
 			self.decomposition[degree] = term
 		

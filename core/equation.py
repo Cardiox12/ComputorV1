@@ -21,6 +21,8 @@ class Equation:
 			return "Cannot solve this equation, degree too high"
 		if self.degree < 0:
 			return "Cannot solve this equation, degree too low"
+		if self.degree == 1:
+			pass
 		if self.degree == 2:
 			# Calculer discriminant
 			a = self.left.decomposition[2]
