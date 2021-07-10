@@ -23,7 +23,6 @@ class Equation:
 			return "Cannot solve this equation, degree too low"
 		if self.degree == 2:
 			# Calculer discriminant
-			print(self.left.decomposition)
 			a = self.left.decomposition[2]
 			b = self.left.decomposition[1]
 			c = self.left.decomposition[0]
