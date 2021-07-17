@@ -10,7 +10,8 @@ class Expression:
 	# MONOME_REGEX = re.compile(r"((\+|\-)?(\s*)(\d*((,|\.)?\d*))(\s*)((\s*)(\*?)(\s*))(X?)(\s*)(\^?)(\s*)(\d*((,|\.)?\d*)))")
 
 	# Original regex
-	MONOME_REGEX = re.compile(r"((\+|-)?\d*((\.|,)?\d*)X?\^?\(?(\+|-)?(\d*(\.|,)?\d*)\)?)")
+	# MONOME_REGEX = re.compile(r"((\+|-)?\d*((\.|,)?\d*)X?\^?\(?(\+|-)?(\d*(\.|,)?\d*)\)?)")
+	MONOME_REGEX = re.compile(r"((([+-]?)|([\+-]?))((([0-9]+([\.,][0-9]+)?\*?)?(X((\^[0-9]+([\.,][0-9]+)?)|(\^\(-?[0-9]+([\.,][0-9]+)?\)))?)?)))")
 	def __init__(self, expression: str):
 		self.expression = expression
 		self.degree = None
@@ -56,7 +57,6 @@ class Expression:
 
 	def decompose(self):
 		monomes = Expression.MONOME_REGEX.findall(self.expression.replace(" ", ""))
-		print(monomes[0])
 		monomes = [monome[0].replace("(", "").replace(")", "") for monome in monomes if monome[0].replace(" ", "")]
 
 		for monome in monomes:
