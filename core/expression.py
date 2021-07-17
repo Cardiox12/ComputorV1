@@ -23,9 +23,6 @@ class Expression:
 	def is_valid(self):
 		pass
 
-	def get_data(self):
-		pass
-
 	def split(self):
 		if self.expression is not None:
 			splitted = self.expression.split("=")
@@ -44,7 +41,7 @@ class Expression:
 			try:
 				self.decomposition[key] += right.decomposition[key]
 			except KeyError:
-				continue
+				self.decomposition[key] = right.decomposition[key]
 		self.expression += right.expression
 		return dict(self.decomposition)
 
@@ -59,9 +56,11 @@ class Expression:
 
 	def decompose(self):
 		monomes = Expression.MONOME_REGEX.findall(self.expression.replace(" ", ""))
-		monomes = [monome[0].replace(" ", "").replace("(", "").replace(")", "") for monome in monomes if monome[0].replace(" ", "")]
+		print(monomes[0])
+		monomes = [monome[0].replace("(", "").replace(")", "") for monome in monomes if monome[0].replace(" ", "")]
 
 		for monome in monomes:
+			print(f"Monome : {monome}")
 			terms = monome.split("^")
 			term = terms[0]
 

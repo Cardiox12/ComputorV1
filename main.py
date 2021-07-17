@@ -2,7 +2,9 @@ from core.equation import Equation
 
 # Left
 
+Equation("4X + 1")
 Equation("4X + 1 = 0")
+Equation("4X + 1 = 24")
 Equation("5X^2 = 0")
 Equation("4X^3 = 0")
 Equation("X^2 + 5X = 0")

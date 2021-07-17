@@ -6,6 +6,7 @@ class Equation:
 		self.expression = Expression(expression)
 		self.left, self.right = self.expression.split()
 
+		print(self.expression)
 		self.left.decompose()
 		if self.right is not None:
 			self.right.decompose()
@@ -16,16 +17,21 @@ class Equation:
 		self.solve()
 		print("=" * 50)
 
+	@staticmethod
+	def has_solutions(self, decomposition):
+		pass
+
 	def solve(self):
 		if any([not float(n).is_integer() for n in self.left.decomposition.keys()]):
 			print("Cannot solve, degree float")
 		if self.degree > 2:
 			print(f"Cannot solve this equation with degree {self.degree}, degree too high")
-		elif self.degree < 0:
-			print(f"Cannot solve this equation with degree {self.degree}, degree too low")
+		if any([degree < 0 for degree in self.left.decomposition.keys()]):
+			print(f"Cannot solve this equation, degree too low")
 		elif self.degree == 1:
-			a = self.left.decomposition[1]
+			a = self.left.decomposition.get(1, 0)
 			b = self.left.decomposition.get(0, 0)
+
 			x = -b / a
 			print(f"{self.expression} a pour solution x = {x}")
 			print(self.format())
@@ -49,6 +55,7 @@ class Equation:
 				print(f"{self.expression} admet deux solutions\n\tx1 : {x1}\n\tx2 : {x2}")
 				print(self.format())
 			elif delta < 0:
+				print("WIP Equation complexe")
 				# Two imaginary solutions
 				# x1 = complex(-b / (2 * a), Equation.sqrt(delta) / (2 * a))
 				# x2 = complex(-b, - Equation.sqrt(delta))
