@@ -5,7 +5,6 @@ class Equation:
 	def __init__(self, expression):
 		self.expression = Expression(expression)
 		self.left, self.right = self.expression.split()
-
 		print(self.expression)
 		self.left.decompose()
 		if self.right is not None:
@@ -33,64 +32,86 @@ class Equation:
 			b = self.left.decomposition.get(0, 0)
 
 			x = -b / a
-			print(f"{self.expression} a pour solution x = {x}")
-			print(self.format())
+
+			equation, solution = self.format(x, None, None, True)
+			print(equation)
+			print(solution)
 		elif self.degree == 2 and len(self.left.decomposition.keys()) == 1:
 			factor = float(self.left.expression.split("X")[0])
 			x = Equation.sqrt(factor)
-			print(f"{self.expression} admet une solution x = {x}")
-			print(self.format())
+
+			equation, solution = self.format(x, None, None, True)
+			print(equation)
+			print(solution)
 		elif self.degree == 2:
-			# Calculer discriminant
+			# Compute delta
 			a = self.left.decomposition.get(2, 0)
 			b = self.left.decomposition.get(1, 0)
 			c = self.left.decomposition.get(0, 0)
 
 			delta = (b ** 2) - (4 * a * c)
 
-			if delta > 0:
+			if delta > 0 or delta < 0:
 				# Two real solutions
+
 				x1 = (-b - Equation.sqrt(delta)) / (2 * a)
 				x2 = (-b + Equation.sqrt(delta)) / (2 * a)
-				print(f"{self.expression} admet deux solutions\n\tx1 : {x1}\n\tx2 : {x2}")
-				print(self.format())
+				
+				equation, solution = self.format(x1, x2, None, True)
+				print(equation)
+				print(solution)
 			elif delta < 0:
-				print("WIP Equation complexe")
 				# Two imaginary solutions
-				# x1 = complex(-b / (2 * a), Equation.sqrt(delta) / (2 * a))
-				# x2 = complex(-b, - Equation.sqrt(delta))
-				# print(f"{self.expression} admet deux solutions imaginaires\n\tx1 : {x1}\n\tx2 : {x2}")
-				# print(self.format())
+
+				div = (-b) / (2 * a)
+				x1 = (-Equation.sqrt(delta)) / (2 * a)
+				x2 = (Equation.sqrt(delta) / (2 * a))
+				
+				equation, solution = self.format(x1, x2, div, False)
+				print(equation)
+				print(solution)
 				pass
 			else:
 				# One solution
 				x = (-b) / (2 * a)
-				print(f"{self.expression} admet une solution\n\tx : {x}")
-				print(self.format())
+				equation, solution = self.format(x, None, None, True)
+				print(equation)
+				print(solution)
 	
-	def format(self):
+	def format(self, x1: int, x2: int, div: int, reel: bool):
 		equation = ""
+		solution = ""
+
 		for index, key in enumerate(self.left.decomposition):
 			value = self.left.decomposition[key]
 			value = value if not value.is_integer() else int(value)
+			key = key if not key.is_integer() else int(key)
 
-			if index == 0:
-				if key == 0:
-					equation += f"{value}"
-				elif key == 1:
-					equation += f"{value} * X"
-				else:
-					equation += f"{value} * X^{key}"
-			elif value < 0:
-				equation += f" - {str(value).replace('-', '')} * X^{key}"
-			elif value >= 0:
-				if key == 0:
-					equation += f" + {value}"
-				elif key == 1:
-					equation += f" + {value} * X"
-				else:
-					equation += f" + {value} * X^{key}"
-		return equation
+			if value < 0:
+				value = str(value).replace("-", "")
+				sign = "-"
+			else:
+				sign = "+" if index != 0 else ""
+
+			space = " " if index != 0 else ""
+			if key == 0:
+				equation += f"{space}{sign} {value}"
+			elif key == 1:
+				equation += f"{space}{sign} {value} * X"
+			else:
+				equation += f"{space}{sign} {value} * X^{key}"
+
+		equation += " = 0"
+		if x1 and x2:
+			if reel:
+				solution = f"{equation} admet deux solutions reelles \n\tx1 : {x1}\n\tx2 : {x2}"
+			else:
+				solution = f"{equation} admet deux solutions "
+		else:
+			solution = f"{equation} admet une solution x = {x1}"
+
+		equation = f"Equation simplifiee : {equation}"
+		return equation, solution
 
 	@staticmethod
 	def sqrt(x):
