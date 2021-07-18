@@ -67,6 +67,7 @@ class Equation:
 				x1 = (-Equation.sqrt(delta)) / (2 * a)
 				x2 = (Equation.sqrt(delta) / (2 * a))
 				
+				print("IMAG")
 				equation, solution = self.format(x1, x2, div, False)
 				print(equation)
 				print(solution)
@@ -106,7 +107,8 @@ class Equation:
 			if reel:
 				solution = f"{equation} admet deux solutions reelles \n\tx1 : {x1}\n\tx2 : {x2}"
 			else:
-				solution = f"{equation} admet deux solutions "
+				print("IMAG")
+				solution = f"{equation} admet deux solutions complexes \n\tx1 {div} + i {x1}\n\t {div} - i {x2}"
 		else:
 			solution = f"{equation} admet une solution x = {x1}"
 
