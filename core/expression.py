@@ -1,8 +1,6 @@
 import re
 
 class Expression:
-	LEFT_REGEX = re.compile(r"(((^[+-]?)|([\+-]))((([0-9]+([\.,][0-9]+)?\*?)?(X((\^[0-9]+([\.,][0-9]+)?)|(\^\(-?[0-9]+([\.,][0-9]+)?\)))?)?)))")
-	RIGHT_REGEX = re.compile(r"([\+-]?((([0-9]+([\.,][0-9]+)?\*?)?(X((\^[0-9]+([\.,][0-9]+)?)|(\^\(-?[0-9]+([\.,][0-9]+)?\)))?)?)))")
 	# Works with parenthesis
 	# MONOME_REGEX = re.compile(r"((\+|\-)?(\s*)(\d*((,|\.)?\d*))(\s*)((\s*)(\*?)(\s*))(X?)(\s*)(\^?)(\s*)(\(?)(-|\+)?(\d*((,|\.)?\d*))(\)?))")
 
@@ -28,27 +26,36 @@ class Expression:
 		if self.expression is not None:
 			splitted = self.expression.split("=")
 			if len(splitted) == 1:
+				splitted[0] = splitted[0].strip()
 				if len(splitted[0]) == 0:
 					return None, None
 				return Expression(splitted[0]), None
 			elif len(splitted) == 2:
-				return Expression(splitted[0]), Expression(splitted[1])
+				return Expression(splitted[0].strip()), Expression(splitted[1].strip())
 			else:
 				return None, None
 
+	def is_decomposed(self):
+		return self.decompose == {}
+
 	def pass_to_left(self, right):
+		if not self.is_decomposed():
+			self.decompose()
+		if not right.is_decomposed():
+			right.decompose()
+
+		right.invert()
 		for key in right.decomposition:
 			try:
-				right_value = right.decomposition[key]
-				if key != 0 and right_value != 0:
-					self.decomposition[key] += right_value
+				self.decomposition[key] = self.decomposition[key] + right.decomposition[key]
 			except KeyError:
 				self.decomposition[key] = right.decomposition[key]
+
 		self.expression += right.expression
 		return dict(self.decomposition)
 
 	def invert(self):
-		if not self.decomposition:
+		if not self.is_decomposed():
 			self.decompose()
 		
 		for key in self.decomposition:
@@ -59,7 +66,7 @@ class Expression:
 	def decompose(self):
 		monomes = Expression.MONOME_REGEX.findall(self.expression.replace(" ", ""))
 		monomes = [monome[0].replace("(", "").replace(")", "") for monome in monomes if monome[0].replace(" ", "")]
-
+		
 		for monome in monomes:
 			terms = monome.split("^")
 			term = terms[0]
@@ -88,3 +95,6 @@ class Expression:
 
 	def __repr__(self):
 		return self.expression
+
+	def __eq__(self, o: object) -> bool:
+		return self.expression == o.expression

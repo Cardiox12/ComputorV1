@@ -5,11 +5,10 @@ class Equation:
 	def __init__(self, expression):
 		self.expression = Expression(expression)
 		self.left, self.right = self.expression.split()
+
 		print(self.expression)
 		self.left.decompose()
 		if self.right is not None:
-			self.right.decompose()
-			self.right.invert()
 			self.left.pass_to_left(self.right)
 
 		self.degree = max(self.left.decomposition.keys())
@@ -37,7 +36,7 @@ class Equation:
 			print(equation)
 			print(solution)
 		elif self.degree == 2 and len(self.left.decomposition.keys()) == 1:
-			factor = float(self.left.expression.split("X")[0])
+			factor = self.left.decomposition[2.0]
 			x = Equation.sqrt(factor)
 
 			equation, solution = self.format(x, None, None, True)
@@ -88,19 +87,20 @@ class Equation:
 			value = value if not value.is_integer() else int(value)
 			key = key if not key.is_integer() else int(key)
 
-			if value < 0:
-				value = str(value).replace("-", "")
-				sign = "-"
-			else:
-				sign = "+" if index != 0 else ""
+			if not value == 0 and not key == 0:
+				if value < 0:
+					value = str(value).replace("-", "")
+					sign = "-"
+				else:
+					sign = "+" if index != 0 else ""
 
-			space = " " if index != 0 else ""
-			if key == 0:
-				equation += f"{space}{sign} {value}"
-			elif key == 1:
-				equation += f"{space}{sign} {value} * X"
-			else:
-				equation += f"{space}{sign} {value} * X^{key}"
+				space = " " if index != 0 else ""
+				if key == 0:
+					equation += f"{space}{sign} {value}"
+				elif key == 1:
+					equation += f"{space}{sign} {value} * X"
+				else:
+					equation += f"{space}{sign} {value} * X^{key}"
 
 		equation += " = 0"
 		if x1 and x2:
