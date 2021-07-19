@@ -5,10 +5,12 @@ class Equation:
 	def __init__(self, expression):
 		self.expression = Expression(expression)
 		self.left, self.right = self.expression.split()
-		print(self.expression)
+		
 		self.left.decompose()
+		self.solvable = True
 		if self.right is not None:
 			self.right.decompose()
+			self.solvable = Equation.has_solutions(self.left, self.right)
 			self.right.invert()
 			self.left.pass_to_left(self.right)
 
@@ -17,15 +19,26 @@ class Equation:
 		print("=" * 50)
 
 	@staticmethod
-	def has_solutions(self, decomposition):
-		pass
+	def has_solutions(a: Expression, b: Expression):
+		# Verify the equation has one or more solutions
+		# by checking if the two sides are differents constants
+		if len(a.decomposition.items()) == 1 and len(b.decomposition.items()):
+			a_key, a_val = list(a.decomposition.items())[0]
+			b_key, b_val = list(b.decomposition.items())[0]
+
+			if a_key == 0 and b_key == 0:
+				return a_val == b_val
+		return True
+
 
 	def solve(self):
-		if any([not float(n).is_integer() for n in self.left.decomposition.keys()]):
+		if not self.solvable:
+			print("Equation not solvable")
+		elif any([not float(n).is_integer() for n in self.left.decomposition.keys()]):
 			print("Cannot solve, degree float")
-		if self.degree > 2:
+		elif self.degree > 2:
 			print(f"Cannot solve this equation with degree {self.degree}, degree too high")
-		if any([degree < 0 for degree in self.left.decomposition.keys()]):
+		elif any([degree < 0 for degree in self.left.decomposition.keys()]):
 			print(f"Cannot solve this equation, degree too low")
 		elif self.degree == 1:
 			a = self.left.decomposition.get(1, 0)
@@ -51,7 +64,7 @@ class Equation:
 
 			delta = (b ** 2) - (4 * a * c)
 
-			if delta > 0 or delta < 0:
+			if delta > 0:
 				# Two real solutions
 
 				x1 = (-b - Equation.sqrt(delta)) / (2 * a)
@@ -62,7 +75,6 @@ class Equation:
 				print(solution)
 			elif delta < 0:
 				# Two imaginary solutions
-
 				div = (-b) / (2 * a)
 				x1 = (-Equation.sqrt(delta)) / (2 * a)
 				x2 = (Equation.sqrt(delta) / (2 * a))
@@ -102,11 +114,11 @@ class Equation:
 				equation += f"{space}{sign} {value} * X^{key}"
 
 		equation += " = 0"
-		if x1 and x2:
+		if all(x is not None for x in [x1, x2]):
 			if reel:
 				solution = f"{equation} admet deux solutions reelles \n\tx1 : {x1}\n\tx2 : {x2}"
 			else:
-				solution = f"{equation} admet deux solutions "
+				solution = f"{equation} admet deux solutions complexes \n\tx1 : {div} + {x1}\n\tx2 : {div} - {x2}"
 		else:
 			solution = f"{equation} admet une solution x = {x1}"
 
